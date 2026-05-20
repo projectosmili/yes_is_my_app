@@ -37,7 +37,6 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatProvider = context.watch<ChatProvider>();
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -49,7 +48,7 @@ class ChatView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final message = chatProvider.message[index];
 
-                  return (message.fromWho == FromWho.hers)
+                  return (message.fromWho == FromWho.her)
                       ? const HerMessageBubble()
                       : const MyMessageBubble();
                 },
@@ -57,8 +56,7 @@ class ChatView extends StatelessWidget {
             ),
 
             ///todo: message field box caja de texto para escribir el mensaje
-            Text('My Message Bubble'),
-            MessageFieldBox(),
+            const MessageFieldBox(),
           ],
         ),
       ),
