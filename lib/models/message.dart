@@ -1,8 +1,8 @@
 enum FromWho { me, her, hers }
 
-class Message {
+class message {
   final String text;
   final FromWho fromWho;
 
-  const Message({required this.text, required this.fromWho});
+  const message({required this.text, required this.fromWho});
 }

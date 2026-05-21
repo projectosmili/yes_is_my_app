@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MessageFieldBox extends StatelessWidget {
-  const MessageFieldBox({super.key});
+  final ValueChanged<String>
+  onValue; // es una función que se ejecutará cuando el valor del campo de texto cambie. Se espera que esta función tome un argumento, que será el nuevo valor del campo de texto.
+
+  const MessageFieldBox({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,9 @@ class MessageFieldBox extends StatelessWidget {
         icon: const Icon(Icons.send_outlined),
         onPressed: () {
           final textValue = textControll.text;
-          print('button: $textValue');
+          onValue(
+            textValue,
+          ); // Llama a la función onValue con el nuevo valor del campo de texto
           textControll
               .clear(); // Limpia el campo de texto después de enviar el mensaje
         },
@@ -38,14 +43,14 @@ class MessageFieldBox extends StatelessWidget {
       controller: textControll,
       decoration: inputDecoration,
       onFieldSubmitted: (value) {
-        print('Submit value: $value');
+        onValue(
+          value,
+        ); // Llama a la función onValue con el nuevo valor del campo de texto
         textControll.clear();
         focusNode
             .requestFocus(); // Limpia el campo de texto después de enviar el mensaje
       },
-      onChanged: (value) {
-        print('Changed value: $value');
-      },
+      onChanged: (value) {},
     );
   }
 }

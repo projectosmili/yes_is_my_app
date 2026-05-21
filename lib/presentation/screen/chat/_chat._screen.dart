@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yes_is_my_app/models/message.dart';
+import 'package:yes_is_my_app/domain/entities/message.dart';
 import 'package:yes_is_my_app/presentation/providers/chat_provider.dart';
 import 'package:yes_is_my_app/presentation/widgets/chat/her_message_bubble.dart';
 import 'package:yes_is_my_app/presentation/widgets/chat/my_message_bubble.dart';
@@ -26,14 +26,12 @@ class ChatScreen extends StatelessWidget {
         title: const Text('Meu amor'),
         centerTitle: false,
       ),
-      body: ChatView(), //
+      body: _ChatView(), //
     );
   }
 }
 
-class ChatView extends StatelessWidget {
-  const ChatView({super.key});
-
+class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatProvider = context.watch<ChatProvider>();
@@ -44,19 +42,22 @@ class ChatView extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: chatProvider.message.length,
+                itemCount: chatProvider.messageList.length,
                 itemBuilder: (context, index) {
-                  final message = chatProvider.message[index];
+                  final message = chatProvider.messageList[index];
 
-                  return (message.fromWho == FromWho.her)
+                  return (message.fromWho == FromWho.hers)
                       ? const HerMessageBubble()
-                      : const MyMessageBubble();
+                      : MyMessageBubble(message: message);
                 },
               ),
             ),
 
             ///todo: message field box caja de texto para escribir el mensaje
-            const MessageFieldBox(),
+            MessageFieldBox(
+              onValue: chatProvider.sendMessage,
+              // onValue              // }
+            ),
           ],
         ),
       ),
