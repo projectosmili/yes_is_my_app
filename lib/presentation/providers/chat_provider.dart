@@ -11,16 +11,17 @@ class ChatProvider extends ChangeNotifier {
   ];
 
   Future<void> sendMessage(String text) async {
+    await Future.delayed(const Duration(milliseconds: 100));
     if (text.isEmpty) return;
     final newMessage = Message(text: text, fromWho: FromWho.me);
     messageList.add(newMessage);
 
     notifyListeners();
-    moveScrollToButtom();
+    moveScrollToBottom();
   }
   // notifica a los widgets que dependen de este provider que el estado ha cambiado y deben reconstruirse para reflejar los cambios.
 
-  void moveScrollToButtom() {
+  void moveScrollToBottom() {
     chatScrollController.animateTo(
       chatScrollController.position.maxScrollExtent,
       duration: const Duration(milliseconds: 300),
