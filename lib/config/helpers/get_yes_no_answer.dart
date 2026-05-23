@@ -1,16 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:yes_is_my_app/models/message.dart';
+import 'package:yes_is_my_app/domain/entities/message.dart';
+import 'package:yes_is_my_app/infrastructure/models/yes_no_model.dart';
 
 class GetYesNoAnswer {
-  final _dio = Dio(BaseOptions(baseUrl: 'https://yesno.wtf'));
+  final _dio = Dio();
 
-  Future<message> getAnswer() async {
-    final response = await _dio.get('/api');
-    final data = response.data as Map<String, dynamic>?;
-    final answer = (data != null && data['answer'] is String)
-        ? data['answer'] as String
-        : 'maybe';
+  Future<Message> getAnswer() async {
+    final response = await _dio.get('https://yesno.wtf/api');
 
-    return message(text: answer, fromWho: FromWho.her);
+    final yesNoModel = YesNoModel.fromJsonMap(response.data);
+
+    return yesNoModel.toMessageEntity();
   }
 }
